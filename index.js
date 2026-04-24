@@ -22,6 +22,12 @@ app.listen(PORT, () => {
 
 // Endpoint: Calcular promedio del curso
 app.get('/promedio', (req, res) => {
+    
+    // PARCHE DE EMERGENCIA: Validar que existan alumnos 
+    if (alumnos.length === 0) {
+        return res.status(400).json({ error: "No hay alumnos para calcular el promedio" });
+    }
+    
     const sumaNotas = alumnos.reduce((acc, alumno) => acc + alumno.nota, 0);
     const promedio = sumaNotas / alumnos.length;
     res.json({ promedio_curso: promedio.toFixed(1) });
